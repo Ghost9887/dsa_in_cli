@@ -1,4 +1,4 @@
-use std::{error::Error,};
+use std::{error::Error, thread, time};
 
 pub fn run_bubble_sort(args: Vec<String>) -> Result<(), Box<dyn Error>> {
 
@@ -37,43 +37,59 @@ pub fn run_bubble_sort(args: Vec<String>) -> Result<(), Box<dyn Error>> {
         index += 1;
     }
 
-    if default_input {
+    let mut input: Vec<f32> = Vec::new();
 
-        let mut default_arr = vec![30, 21, 6, 78, 92, 14, 50, 33, 68];
-        let mut moved = true;
-        let mut step = 1;
-        while moved {
-            moved = false;
-            for i in 0..default_arr.len() - 1{
-
-                if i + 1 > default_arr.len() - 1 {
-                    break;
-                }
-                
-                let a = default_arr[i];
-                let b = default_arr[i + 1];
-
-                if a > b {
-                    default_arr[i] = b;
-                    default_arr[i + 1] = a;
-                    moved = true;
-                }            
+    if custom_input {
+        let user_input = &args[1];   
+        let mut string_number = String::new();
+        for c in user_input.chars() {
+            if c.is_numeric() {
+               string_number.push(c);
             }
-            if show_steps {
-                println!("{}:", step);
-                print!("");
-                println!("{:?}\n", default_arr);
-                //clear screen
-                //print!("\x1B[2J\x1B[1;1H");
-                step += 1;
+            else {
+                if string_number.len() > 0 {
+                    let number = string_number.parse::<f32>()?;
+                    input.push(number);
+                    string_number = String::new();
+                }
             }
         }
-        println!("Result: {:?}", default_arr);
-        return Ok(());
+    }
+    else if default_input{
+        input = vec![30.0, 21.0, 6.0, 78.0, 92.0, 14.0, 50.0, 33.0, 68.0];
+    }
+    else {
+        return Err("No input provided for bubble sort 'dsa' for help".into());
     }
 
-    else if custom_input {
-
+    println!("Input: {:?}", input);
+    let mut moved = true;
+    let mut step = 1;
+    while moved {
+        if show_steps {
+            println!("");
+            println!("{}:", step);
+            print!("");
+            println!("{:?}\n", input);
+            //clear screen
+            //print!("\x1B[2J\x1B[1;1H");
+            step += 1;
+            thread::sleep(time::Duration::from_millis(500));
+        }
+        moved = false;
+        for i in 0..input.len() - 1{
+            if i + 1 > input.len() - 1 {
+                break;
+            }
+            let a = input[i];
+            let b = input[i + 1];
+            if a > b {
+                input[i] = b;
+                input[i + 1] = a;
+                moved = true;
+            }            
+        }
     }
+    println!("Result: {:?}", input);
     Ok(())
 }

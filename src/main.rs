@@ -51,7 +51,7 @@ bubble_sort =>
     bubble_sort [arg1] ...
 
     arguments:
-    -i => custom input : usage 'bubble_sort -i [3, 1, 50, 27, 89]'
+    -i => custom input : usage 'bubble_sort -i [3,1,50,27,89]'
     -d => defualt input : usage 'bubble_sort -d' 
     -s => shows steps it took : usage 'bubble_sort -d -s'
 ");
